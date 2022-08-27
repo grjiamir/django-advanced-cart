@@ -16,22 +16,24 @@ class Cart(object):
         self.discount_type = cart.get('discount_type', 'percent')
         self.items = cart.get('items', dict())
 
-    def add(self, product, quantity=1):
+    def add(self, product_id, name, price, image_url=None, quantity=1):
         """
         Add a product to the cart or update its quantity.
         """
-        product_id = str(product.id)
+        product_id = str(product_id)
         if product_id not in self.items.keys():
 
             self.items[product_id] = {
-                'image': product.image.url,
-                'product_id': product.id,
-                'name': product.name,
+                'image': image_url,
+                'product_id': product_id,
+                'name': name,
                 'quantity': quantity,
-                'price': product.price,
+                'price': price,
+                'total_price': price * quantity,
             }
         else:
             self.items[product_id]['quantity'] += quantity
+            self.items[product_id]['total_price'] = self.items[product_id]['price'] * self.items[product_id]['quantity']
 
         self.save()
 
@@ -47,7 +49,7 @@ class Cart(object):
         total_bill = 0.0
         total_items = 0
         for key, value in self.items.items():
-            total_bill += (float(value['price']) * value['quantity'])
+            total_bill += float(value['total_price'])
             total_items += value['quantity']
         self.total_bill = total_bill
         self.cart['amount_payable'] = total_bill
@@ -71,25 +73,34 @@ class Cart(object):
         # Mark the session as "modified" to make sure it is saved
         self.session.modified = True
 
-    def remove(self, product):
+    def remove(self, product_id):
         """
         Remove a product from the cart.
         """
-        product_id = str(product.id)
+        product_id = str(product_id)
         if product_id in self.items:
             del self.items[product_id]
             self.save()
 
-    def decrement(self, product):
-        product_id = str(product.id)
-        for key, value in self.items.items():
-            if key == product_id:
-                if self.items[product_id]['quantity'] >= 2:
-                    self.items[product_id]['quantity'] -= 1
-                    self.save()
-                else:
-                    self.remove(product)
-                break
+    def increment(self, product_id, quantity=1):
+        product_id = str(product_id)
+        if product_id in self.items.keys():
+            self.items[product_id]['quantity'] += quantity
+            self.items[product_id]['total_price'] = self.items[product_id]['price'] * self.items[product_id][
+                'quantity']
+            self.save()
+
+    def decrement(self, product_id, quantity=1):
+        product_id = str(product_id)
+        if product_id not in self.items.keys():
+            return False
+        self.items[product_id]['quantity'] -= quantity
+        if self.items[product_id]['quantity'] < 1:
+            self.remove(product_id)
+        else:
+            self.items[product_id]['total_price'] = self.items[product_id]['price'] * self.items[product_id][
+                'quantity']
+            self.save()
 
     def set_discount(self, discount, discount_type='percent'):
         """
