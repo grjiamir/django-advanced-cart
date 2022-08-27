@@ -10,11 +10,6 @@ advanced_cart/tests.py
 advanced_cart/__pycache__/__init__.cpython-39.pyc
 advanced_cart/__pycache__/apps.cpython-39.pyc
 advanced_cart/__pycache__/cart.cpython-39.pyc
-advanced_cart/templatetags/__init__.py
-advanced_cart/templatetags/cart_tag.py
-advanced_cart/templatetags/__pycache__/__init__.cpython-39.pyc
-advanced_cart/templatetags/__pycache__/cart_tag.cpython-39.pyc
-advanced_cart/templatetags/__pycache__/simple_tag.cpython-36.pyc
 django_advanced_cart.egg-info/PKG-INFO
 django_advanced_cart.egg-info/SOURCES.txt
 django_advanced_cart.egg-info/dependency_links.txt

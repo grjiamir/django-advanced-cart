@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: django-advanced-cart
-Version: 0.1
+Version: 0.2
 Summary: A Django app to add product to store.
 Home-page: https://github.com/amirxpr/django-advanced-cart
 Author: Amir
@@ -24,5 +24,27 @@ Classifier: Topic :: Internet :: WWW/HTTP
 Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
 License-File: LICENSE
 
-UNKNOWN
+====================
+Django Advanced Cart
+====================
+
+Django Advanced Cart is a Django app to store product in cart.
+
+
+Quick start
+-----------
+
+1. Add "advanced_cart" to your INSTALLED_APPS setting like this::
+
+    INSTALLED_APPS = [
+        ...
+        'advanced_cart',
+    ]
+
+    Add below line to settings::
+        CART_SESSION_ID = 'cart'
+
+
+
+
 
